@@ -23,6 +23,10 @@ dependencies {
     implementation 'com.google.guava:guava:30.1.1-jre'
     // Dependencies for ASCII rendering
     implementation 'com.indvd00m.ascii.render:ascii-render:2.2.0'
+    // PDFBox dependency 
+    implementation 'org.apache.pdfbox:pdfbox:3.0.2'
+    // Hinzufügen der JFreeChart-Dependency
+    implementation 'org.jfree:jfreechart:1.5.4'
 }
 
 
@@ -41,4 +45,23 @@ application {
 tasks.named('test') {
     // Use JUnit Platform for unit tests.
     useJUnitPlatform()
+}
+// Hinzufügen des neuen Quellensatzes für das PDF-Beispiel
+sourceSets {
+    pdfexample {
+        java {
+            srcDirs = ['src/pdfexample/java']
+        }
+        resources {
+            srcDirs = ['src/pdfexample/resources']
+        }
+    }
+}
+
+// Task zum Ausführen des PDF-Beispiels
+task runPdfExample(type: JavaExec) {
+    group = 'Application'
+    description = 'Run the CreatePDF class'
+    classpath = sourceSets.pdfexample.runtimeClasspath
+    mainClass.set('com.example.CreatePDF')
 }
